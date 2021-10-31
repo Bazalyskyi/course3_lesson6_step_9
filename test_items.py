@@ -8,7 +8,7 @@ from selenium import webdriver
 
 def test_guest_should_see_login_link(browser):
 
-  
+    time.sleep(30)
     if browser.find_elements_by_css_selector("button.btn.btn-lg.btn-primary.btn-add-to-basket"):
         print('this button exists on the site')
         assert True

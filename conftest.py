@@ -11,13 +11,13 @@ def pytest_addoption(parser):
 def browser(request):
     language_name = request.config.getoption("language")
     browser = None
-    if language_name == "ru":
+    if language_name == "fr":
         print("\nstart chrome browser for test english language..")
         browser = webdriver.Chrome()
         options = Options()
-        options.add_experimental_option('prefs', {'intl.accept_languages': 'ru,ru_Ru'})
+        options.add_experimental_option('prefs', {'intl.accept_languages': 'fr,fr_Fr'})
         browser = webdriver.Chrome(options=options)
-        link = f"http://selenium1py.pythonanywhere.com/ru/catalogue/coders-at-work_207/"
+        link = f"http://selenium1py.pythonanywhere.com/fr/catalogue/coders-at-work_207/"
         browser.get(link)
     elif language_name == "es":
         print("\nstart chrome browser for test russian language..")
@@ -28,7 +28,7 @@ def browser(request):
         link = f"http://selenium1py.pythonanywhere.com/es/catalogue/coders-at-work_207/"
         browser.get(link)
     else:
-        raise pytest.UsageError("--language should be en or ru")
+        raise pytest.UsageError("--language should be es or fr")
     yield browser
     print("\nquit browser..")
     browser.quit()
