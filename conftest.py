@@ -48,7 +48,7 @@ def browser(request):
         link = f"http://selenium1py.pythonanywhere.com/{language}/catalogue/coders-at-work_207/"
         browser.get(link)
     else:
-        raise pytest.UsageError("--language should be es or fr")
+        raise pytest.UsageError("--language must be from the list")
     yield browser
     print("\nquit browser..")
     browser.quit()
