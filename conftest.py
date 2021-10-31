@@ -2,30 +2,50 @@ import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
+
+supported_languages = {
+    'العربيّة': 'ar',
+    'català': 'ca',
+    'česky': 'cs',
+    'dansk': 'da',
+    'Deutsch': 'de',
+    'British English': 'en-gb',
+    'Ελληνικά': 'el',
+    'español': 'es',
+    'suomi': 'fi',
+    'français': 'fr',
+    'italiano': 'it',
+    '한국어': 'ko',
+    'Nederlands': 'nl',
+    'polski': 'pl',
+    'Português': 'pt',
+    'Português Brasileiro': 'pt-br',
+    'Română': 'ro',
+    'Русский': 'ru',
+    'Slovensky': 'sk',
+    'Українська': 'uk',
+    '简体中文': 'zh-hans'
+}
+
 def pytest_addoption(parser):
-    parser.addoption('--language', action='store', default=None,
-                     help="Choose browser: chrome or firefox")
+    parser.addoption('--language', action='store', default='ru',
+                     help=f"""Choose language: {', '.join(supported_languages.keys())}""")
+
+
+
 
 
 @pytest.fixture(scope="function")
 def browser(request):
-    language_name = request.config.getoption("language")
-    browser = None
-    if language_name == "fr":
+
+    language = request.config.getoption("language")
+    if language in supported_languages.values():
         print("\nstart chrome browser for test english language..")
         browser = webdriver.Chrome()
         options = Options()
-        options.add_experimental_option('prefs', {'intl.accept_languages': 'fr,fr_Fr'})
+        options.add_experimental_option('prefs', {'intl.accept_languages': language})
         browser = webdriver.Chrome(options=options)
-        link = f"http://selenium1py.pythonanywhere.com/fr/catalogue/coders-at-work_207/"
-        browser.get(link)
-    elif language_name == "es":
-        print("\nstart chrome browser for test russian language..")
-        browser = webdriver.Chrome()
-        options = Options()
-        options.add_experimental_option('prefs', {'intl.accept_languages': 'es,es_Sp'})
-        browser = webdriver.Chrome(options=options)
-        link = f"http://selenium1py.pythonanywhere.com/es/catalogue/coders-at-work_207/"
+        link = f"http://selenium1py.pythonanywhere.com/{language}/catalogue/coders-at-work_207/"
         browser.get(link)
     else:
         raise pytest.UsageError("--language should be es or fr")
